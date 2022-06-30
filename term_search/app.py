@@ -1,6 +1,5 @@
 import re
 import json
-# import ndjson
 import urllib.parse
 import boto3
 
