@@ -35,7 +35,7 @@ covenant_flags = [' race', 'negro', 'chinese', 'racial', 'japanese', 'moorish',
     'semitic', 'nationality', 'aryan', 'armenian', 'hebrew', 'persian',
     'syrian', 'caucasian', 'irish', 'italian', 'greek', 'polish',
     'persons not of', 'person not of', 'occupied by any',
-    'shall not be conveyed', 'milwaukee']
+    'shall not be conveyed']
 
 def load_json(bucket, key):
     content_object = s3.get_object(Bucket=bucket, Key=key)
@@ -66,7 +66,7 @@ def lambda_handler(event, context):
         print('Error getting object {} from bucket {}. Make sure it exists and your bucket is in the same region as this function.'.format(key, bucket))
         raise e
 
-    key_parts = re.search('(?P<status>[a-z]+)/(?P<workflow>[A-z\-]+)/(?P<remainder>.+)\.(?P<extension>[a-z]+)', key).groupdict()
+    key_parts = re.search('ocr/json/(?P<workflow>[A-z\-]+)/(?P<remainder>.+)\.(?P<extension>[a-z]+)', key).groupdict()
     lines = [block for block in ocr_result['Blocks'] if block['BlockType'] == 'LINE']
 
     results = {}
@@ -82,6 +82,8 @@ def lambda_handler(event, context):
     bool_hit = False
     match_file = None
     if results != {}:
+        results['workflow'] = key_parts['workflow']
+        results['lookup'] = key_parts['remainder']
         bool_hit = True
         match_file = save_match_file(results, bucket, key_parts)
 
