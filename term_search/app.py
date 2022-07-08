@@ -56,9 +56,16 @@ def save_match_file(results, bucket, key_parts):
 
 def lambda_handler(event, context):
     #print("Received event: " + json.dumps(event, indent=2))
-    bucket = event['Records'][0]['s3']['bucket']['name']
-    key = urllib.parse.unquote_plus(
-        event['Records'][0]['s3']['object']['key'], encoding='utf-8')
+    if 'Records' in event:
+        # Get the object from a more standard put event
+        bucket = event['Records'][0]['s3']['bucket']['name']
+        key = urllib.parse.unquote_plus(
+            event['Records'][0]['s3']['object']['key'], encoding='utf-8')
+    else:
+        # Coming from step function
+        bucket = event['body']['bucket']
+        key = event['body']['json']
+
     try:
         ocr_result = load_json(bucket, key)
     except Exception as e:
@@ -89,10 +96,10 @@ def lambda_handler(event, context):
 
     return {
         "statusCode": 200,
-        "body": json.dumps({
+        "body": {
             "message": "hello world",
             "bool_hit": bool_hit,
             "match_file": match_file
             # "location": ip.text.replace("\n", "")
-        }),
+        }
     }
