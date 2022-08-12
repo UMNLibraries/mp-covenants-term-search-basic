@@ -31,8 +31,8 @@ covenants-deeds-images
 s3 = boto3.client('s3')
 
 covenant_flags = [' race', 'negro', 'chinese', 'racial', 'japanese', 'moorish',
-    'turkish', 'mongolian', 'african', 'blood', 'colored', 'servants',
-    'semitic', 'nationality', 'aryan', 'armenian', 'hebrew', 'persian',
+    'turkish', 'mongolian', 'african', ' blood', 'colored', 'servants',
+    'semitic', 'nationality', ' aryan', 'armenian', 'hebrew', 'persian',
     'syrian', 'caucasian', 'irish', 'italian', 'greek', 'polish',
     'persons not of', 'person not of', 'occupied by any',
     'shall not be conveyed']
@@ -61,10 +61,12 @@ def lambda_handler(event, context):
         bucket = event['Records'][0]['s3']['bucket']['name']
         key = urllib.parse.unquote_plus(
             event['Records'][0]['s3']['object']['key'], encoding='utf-8')
+        public_uuid = None
     else:
         # Coming from step function
         bucket = event['body']['bucket']
         key = event['body']['json']
+        public_uuid = event['body']['uuid']
 
     try:
         ocr_result = load_json(bucket, key)
@@ -91,15 +93,17 @@ def lambda_handler(event, context):
     if results != {}:
         results['workflow'] = key_parts['workflow']
         results['lookup'] = key_parts['remainder']
+        results['uuid'] = public_uuid
         bool_hit = True
-        match_file = save_match_file(results, bucket, key_parts)
+        match_file = save_match_file(results, bucket, key_parts, public_uuid)
 
     return {
         "statusCode": 200,
         "body": {
             "message": "hello world",
             "bool_hit": bool_hit,
-            "match_file": match_file
+            "match_file": match_file,
+            "uuid": public_uuid
             # "location": ip.text.replace("\n", "")
         }
     }
