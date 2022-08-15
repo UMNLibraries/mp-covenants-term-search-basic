@@ -95,7 +95,7 @@ def lambda_handler(event, context):
         results['lookup'] = key_parts['remainder']
         results['uuid'] = public_uuid
         bool_hit = True
-        match_file = save_match_file(results, bucket, key_parts, public_uuid)
+        match_file = save_match_file(results, bucket, key_parts)
 
     return {
         "statusCode": 200,
