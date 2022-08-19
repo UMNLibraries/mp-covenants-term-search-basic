@@ -35,7 +35,7 @@ covenant_flags = [' race', 'negro', 'chinese', 'racial', 'japanese', 'moorish',
     'semitic', 'nationality', ' aryan', 'armenian', 'hebrew', 'persian',
     'syrian', 'caucasian', 'irish', 'italian', 'greek', 'polish',
     'persons not of', 'person not of', 'occupied by any',
-    'shall not be conveyed']
+    'shall not be conveyed', ' white']
 
 def load_json(bucket, key):
     content_object = s3.get_object(Bucket=bucket, Key=key)
