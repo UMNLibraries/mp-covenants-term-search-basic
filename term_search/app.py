@@ -30,12 +30,45 @@ covenants-deeds-images
 
 s3 = boto3.client('s3')
 
-covenant_flags = [' race', 'negro', 'chinese', 'racial', 'japanese', 'moorish',
-    'turkish', 'mongolian', 'african', ' blood', 'colored', 'servants',
-    'semitic', 'nationality', ' aryan', 'armenian', 'hebrew', 'persian',
-    'syrian', 'caucasian', 'irish', 'italian', 'greek', 'polish',
-    'persons not of', 'person not of', 'occupied by any',
-    'shall not be conveyed', ' white']
+covenant_flags = [
+    'african',
+    'armenian',
+    ' aryan',
+    'caucasian',
+    'chinese',
+    'citizen',
+    'colored',
+    'domestic servants',
+    'ethiopian',
+    'hebrew',
+    'hindu',
+    'irish',
+    'italian',
+    'japanese',
+    ' jew ',
+    'jewish',
+    ' malay',
+    'mexican',
+    'mongolian',
+    'moorish',
+    'mulatto',
+    'mulato',
+    'nationality',
+    ' not white',
+    'negro',
+    'occupied by any',
+    'persian',
+    'person not of',
+    'persons not of',
+    ' polish',
+    'racial',
+    'semetic',
+    'semitic',
+    'simitic',
+    'syrian',
+    'turkish',
+    'white race',
+]
 
 def load_json(bucket, key):
     content_object = s3.get_object(Bucket=bucket, Key=key)
@@ -62,8 +95,13 @@ def lambda_handler(event, context):
         key = urllib.parse.unquote_plus(
             event['Records'][0]['s3']['object']['key'], encoding='utf-8')
         public_uuid = None
+    elif 'detail' in event:
+        # Get object from step function with this as first step
+        bucket = event['detail']['bucket']['name']
+        key = event['detail']['object']['key']
+        public_uuid = None
     else:
-        # Coming from step function
+        # Coming from previous step function
         bucket = event['body']['bucket']
         key = event['body']['json']
         public_uuid = event['body']['uuid']
