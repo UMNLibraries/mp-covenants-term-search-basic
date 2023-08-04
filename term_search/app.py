@@ -32,6 +32,7 @@ s3 = boto3.client('s3')
 
 covenant_flags = [
     'african',
+    ' alien',
     'armenian',
     ' aryan',
     'caucasian',
@@ -42,6 +43,7 @@ covenant_flags = [
     'ethiopian',
     'hebrew',
     'hindu',
+    ' indian',
     'irish',
     'italian',
     'japanese',
