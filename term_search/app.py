@@ -36,11 +36,18 @@ covenant_flags = [
     'armenian',
     ' aryan',
     'caucasian',
+    'cau-casian',
+    'cauca-sian',
     'caucasion',
+    'cau-casion',
+    'cauca-sion',
     'chinese',
     'citizen',
     'colored',
     'domestic servants',
+    'death certificate',  # Used to flag as exception
+    'certificate of death',  # Used to flag as exception
+    'date of death',  # Used to flag as exception
     'ethiopian',
     'hebrew',
     'hindu',
@@ -102,7 +109,7 @@ def lambda_handler(event, context):
         # Get object from step function with this as first step
         bucket = event['detail']['bucket']['name']
         key = event['detail']['object']['key']
-        public_uuid = None
+        public_uuid = None  # This could be added from DB or by opening previous JSON records, but would slow down this process
     else:
         # Coming from previous step function
         bucket = event['body']['bucket']
