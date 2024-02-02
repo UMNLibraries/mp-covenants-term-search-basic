@@ -41,6 +41,7 @@ covenant_flags = [
     'caucasion',
     'cau-casion',
     'cauca-sion',
+    'caucausian',
     'chinese',
     'citizen',
     'colored',
