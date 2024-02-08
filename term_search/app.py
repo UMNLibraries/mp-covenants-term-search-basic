@@ -32,7 +32,7 @@ s3 = boto3.client('s3')
 
 covenant_flags = [
     'african',
-    ' alien',
+    # ' alien',
     'armenian',
     ' aryan',
     'caucasian',
@@ -43,7 +43,7 @@ covenant_flags = [
     'cauca-sion',
     'caucausian',
     'chinese',
-    'citizen',
+    # 'citizen',
     'colored',
     'domestic servants',
     'death certificate',  # Used to flag as exception
@@ -73,6 +73,9 @@ covenant_flags = [
     'persons not of',
     ' polish',
     'racial',
+    'report of transfer',  # Used to flag as exception
+    'transfer or discharge',  # Used to flag as exception
+    'blood group',  # Used to flag as exception
     'semetic',
     'semitic',
     'simitic',
