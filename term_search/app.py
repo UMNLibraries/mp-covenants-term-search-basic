@@ -49,6 +49,7 @@ covenant_flags = [
     'death certificate',  # Used to flag as exception
     'certificate of death',  # Used to flag as exception
     'date of death',  # Used to flag as exception
+    'name of deceased',  # Used to flag as exception
     'ethiopian',
     'hebrew',
     'hindu',
@@ -74,6 +75,7 @@ covenant_flags = [
     ' polish',
     'racial',
     'report of transfer',  # Used to flag as exception
+    'report of separation',  # Used to flag as exception
     'transfer or discharge',  # Used to flag as exception
     'blood group',  # Used to flag as exception
     'semetic',
@@ -127,7 +129,7 @@ def lambda_handler(event, context):
         print('Error getting object {} from bucket {}. Make sure it exists and your bucket is in the same region as this function.'.format(key, bucket))
         raise e
 
-    key_parts = re.search('ocr/json/(?P<workflow>[A-z\-]+)/(?P<remainder>.+)\.(?P<extension>[a-z]+)', key).groupdict()
+    key_parts = re.search(r'ocr/json/(?P<workflow>[A-z\-]+)/(?P<remainder>.+)\.(?P<extension>[a-z]+)', key).groupdict()
     lines = [block for block in ocr_result['Blocks'] if block['BlockType'] == 'LINE']
 
     results = {}
