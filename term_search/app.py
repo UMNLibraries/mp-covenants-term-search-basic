@@ -104,7 +104,8 @@ def save_match_file(results, bucket, key_parts):
     return out_key
 
 def lambda_handler(event, context):
-    #print("Received event: " + json.dumps(event, indent=2))
+    """ For each term in covenant_flags, check OCR JSON file received from previous step for existance of term. This is a really simple CNTRL + F style search, no partial matching, regex, fuzzy, etc. Some of the terms are actually exceptions rather than covenant hits, and once they reach the Django stage, will be used to mark this page as exempt from consideration as being considered as a racial covenant. Common examples of exceptions include birth certificates and military discharges, which often contain racial information but are not going to contain a racial covenant. """
+    
     if 'Records' in event:
         # Get the object from a more standard put event
         bucket = event['Records'][0]['s3']['bucket']['name']
