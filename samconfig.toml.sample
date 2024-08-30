@@ -3,8 +3,8 @@ version = 0.1
 [default.deploy]
 [default.deploy.parameters]
 stack_name = "mp-covenants-term-search-basic"
-s3_bucket = "covenants-deed-images"
+s3_bucket = "XXXX"
 s3_prefix = "mp-covenants-term-search-basic"
-region = "us-east-2"
+region = "XXXX"
 capabilities = "CAPABILITY_IAM"
 image_repositories = []
