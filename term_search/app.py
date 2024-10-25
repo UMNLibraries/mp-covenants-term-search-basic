@@ -112,16 +112,19 @@ def lambda_handler(event, context):
         key = urllib.parse.unquote_plus(
             event['Records'][0]['s3']['object']['key'], encoding='utf-8')
         public_uuid = None
+        orig = None
     elif 'detail' in event:
         # Get object from step function with this as first step
         bucket = event['detail']['bucket']['name']
         key = event['detail']['object']['key']
         public_uuid = None  # This could be added from DB or by opening previous JSON records, but would slow down this process
+        orig = None
     else:
         # Coming from previous step function
         bucket = event['body']['bucket']
         key = event['body']['json']
         public_uuid = event['body']['uuid']
+        orig = event['body']['orig']
 
     try:
         ocr_result = load_json(bucket, key)
@@ -158,7 +161,8 @@ def lambda_handler(event, context):
             "message": "hello world",
             "bool_hit": bool_hit,
             "match_file": match_file,
-            "uuid": public_uuid
+            "uuid": public_uuid,
+            "orig": orig
             # "location": ip.text.replace("\n", "")
         }
     }
