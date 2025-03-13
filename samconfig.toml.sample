@@ -8,3 +8,13 @@ s3_prefix = "mp-covenants-term-search-basic"
 region = "XXXX"
 capabilities = "CAPABILITY_IAM"
 image_repositories = []
+
+[otherenv]
+[otherenv.deploy]
+[otherenv.deploy.parameters]
+stack_name = "mp-ca-contracosta-prd-lambda-term-search-basic"
+s3_bucket = "XXXX"
+s3_prefix = "lambda-term-search-basic"
+region = "XXXX"
+capabilities = "CAPABILITY_IAM"
+image_repositories = []
